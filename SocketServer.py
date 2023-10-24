@@ -15,6 +15,7 @@ import GPT.tune
 from utils.FlushingFileHandler import FlushingFileHandler
 from ASR import ASRService
 from GPT import GPTService
+from KingGPT import KingGPTService
 from TTS import TTService
 from SentimentEngine import SentimentEngine
 
@@ -63,7 +64,7 @@ class Server():
         self.conn = None
         logging.info('Initializing Server...')
         self.host = socket.gethostbyname(socket.gethostname())
-        self.port = 38438
+        self.port = 8885
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 10240000)
         self.s.bind((self.host, self.port))
@@ -82,7 +83,8 @@ class Server():
         self.paraformer = ASRService.ASRService('./ASR/resources/config.yaml')
 
         # CHAT GPT
-        self.chat_gpt = GPTService.GPTService(args)
+        #self.chat_gpt = GPTService.GPTService(args)
+        self.chat_gpt = KingGPTService.KingGPTService(args)
 
         # TTS
         self.tts = TTService.TTService(*self.char_name[args.character])
